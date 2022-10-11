@@ -14,6 +14,7 @@ from sklearn.model_selection import train_test_split
 train_df = pd.read_csv('./data/train.csv', index_col = 'index')
 test_df = pd.read_csv('./data/test.csv', index_col = 'index') # 10000개
 
+# 각 픽셀이 0에서 255 사이의 값을 가진다 하였을 때 검은색은 0을, 흰색은 255, 회색은 0~255 사이의 값을 가질 것으로 예상할 수 있음
 x_train = train_df.iloc[:,1:].values/255  # /255를 함으로써 스케일링? -> 각 픽셀이 255값이 최대값이여서 0~1사이의 값으로 조정(일종의 Min Max Scaler)
 y_train = train_df.iloc[:,0].values
 x_train, x_val, y_train, y_val = train_test_split(x_train,y_train,test_size=0.2) #, random_state=2022
@@ -29,7 +30,7 @@ valid_x_torch = torch.from_numpy(x_val).type(torch.FloatTensor)
 train_y_torch = torch.from_numpy(y_train).type(torch.LongTensor)
 valid_y_torch = torch.from_numpy(y_val).type(torch.LongTensor)
 
-
+# PyTorch, which is (samples, channels, height, width).
 train_x_torch = train_x_torch.view(-1, 1,28,28).float() # view와 reshape은 같다, 48000,1,28,28 형태
 valid_x_torch = valid_x_torch.view(-1, 1,28,28).float() # 12000,1,28,28 형태
 
